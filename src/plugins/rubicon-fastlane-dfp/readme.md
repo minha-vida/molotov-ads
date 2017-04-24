@@ -8,7 +8,7 @@ Options for this plugin:
 
 | Parameter | Description | Example
 | --- | --- | ---
-| `data-mad-rubicon-position` | Required. This parameter is required for every slot you wish to use fastlane with. Expected values are "atf" or "btf". If you don't use this parameter  | `data-mad-rubicon-position="atf"`
+| `data-mad-rubicon-position` | Required. This parameter is required for every slot you wish to use fastlane with. Expected values are "atf" or "btf". If you don't use this parameter this plugin will fallback to DFP, thus not using fastlane for that slot  | `data-mad-rubicon-position="atf"`
 
 Also, your madOptions object should have an entry for this plugin:
 
