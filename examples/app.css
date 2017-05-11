@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    font-family: Tahoma;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4 {
+    color: #000;
+    letter-spacing: -0.06em;
+    font-weight: normal;
+    font-weight: 400;
+}
+
+p {
+    margin: 10px;
+}
+
+footer {
+    background: #ccc;
+    border-top: solid 1px #6c6c6c;
+    padding: 10px 0 35px 0;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: block;
+}
+
+.ad {
+    text-align: center;
+}
+
+#mobileleaderboard {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+@media (max-width: 890px) {
+    .mobile-only {
+        display: block;
+    }
+    .desktop-only {
+        display: none;
+    }
+}
