@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Molotov Ads - Test Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400" rel="stylesheet">
+  <link href="/examples/app.css" rel="stylesheet">
+  <script>
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    (function() {
+      var gads = document.createElement('script');
+      gads.async = true;
+      gads.type = 'text/javascript';
+      var useSSL = 'https:' == document.location.protocol;
+      gads.src = (useSSL ? 'https:' : 'http:') + '//www.googletagservices.com/tag/js/gpt.js';
+      var node = document.getElementsByTagName('script')[0];
+      node.parentNode.insertBefore(gads, node);
+    })();
+  </script>
+  <script type="text/javascript" src="//acdn.adnxs.com/prebid/not-for-prod/prebid.js" async></script>
+  <script>
+    var pbjs = pbjs || {};
+    pbjs.que = pbjs.que || [];
+  </script>
+</head>
+
+<body>
+  <div>
+    <div class="desktop-only">
+      <div id="desktopleaderboard" class="ad" data-mad data-mad-adunit="/19968336/header-bid-tag1" data-mad-size="[728,90]">
+      </div>
+    </div>
+    <h1>Test Page</h1>
+    <h3>Use #development at the end of your url to see some cool logs</h3>
+    <hr />
+    <h4>300x250</h4>
+    <h6>(refreshing each 20s, limited to only 3 times)</h6>
+
+    <div id="square-adrotate" class="ad" data-mad data-mad-adunit="/19968336/header-bid-tag-0" data-mad-size="[300,250]" data-mad-auto-refresh-in-seconds="20" data-mad-auto-refresh-limit="3">
+    </div>
+  </div>
+  <hr />
+  <article>
+    <h2>Sample text with a lazy loading ad at the end</h2>
+    <h6>(100 pixels offset, refreshing each 30s, limited to 10 times)</h6>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sapien ex, placerat at enim id, commodo sagittis nibh. Aliquam eleifend magna sit amet sodales egestas. Curabitur accumsan posuere ex. Phasellus interdum dictum ultricies. Mauris eleifend
+      placerat libero, eu congue metus elementum a. Quisque sed diam et ipsum lacinia sollicitudin. Aliquam eu tristique ante. Vestibulum at leo cursus, laoreet arcu ac, pretium dolor. Vivamus mattis urna sed felis blandit, sed mattis urna lobortis. Aenean
+      faucibus mi ornare odio feugiat pulvinar. In posuere imperdiet augue, vitae interdum nisi porttitor et.
+    </p>
+    <p>
+      Vivamus tortor lectus, euismod a pellentesque sit amet, hendrerit eget risus. Mauris semper felis in vulputate dapibus. Duis condimentum euismod orci et porta. Vivamus id eros cursus lacus imperdiet tempus. Sed cursus sem nibh, sit amet consectetur quam
+      pulvinar id. Nam finibus, nibh ac fringilla efficitur, velit justo laoreet purus, a porta diam diam vulputate enim. Cras pulvinar ultrices erat, malesuada efficitur lectus tristique in. Vivamus eget tincidunt est. Sed felis elit, vestibulum in mauris
+      et, congue consequat nisi. Etiam massa quam, consectetur porta dolor vel, finibus pharetra lacus. Donec et nibh lectus. Praesent eget laoreet orci.
+    </p>
+    <p>
+      In tristique ligula in metus tempor, a convallis sem aliquet. Etiam laoreet ex a velit semper tempor. Donec sed congue metus, et consectetur sem. Fusce laoreet lacus vel turpis ullamcorper, quis pretium sapien tristique. Duis sed pretium ligula, nec tincidunt
+      dolor. Nulla ultricies tellus gravida nisi consectetur auctor. Vivamus libero massa, sagittis eu scelerisque tristique, finibus cursus erat. Fusce consequat odio sit amet orci finibus vehicula.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sapien ex, placerat at enim id, commodo sagittis nibh. Aliquam eleifend magna sit amet sodales egestas. Curabitur accumsan posuere ex. Phasellus interdum dictum ultricies. Mauris eleifend
+      placerat libero, eu congue metus elementum a. Quisque sed diam et ipsum lacinia sollicitudin. Aliquam eu tristique ante. Vestibulum at leo cursus, laoreet arcu ac, pretium dolor. Vivamus mattis urna sed felis blandit, sed mattis urna lobortis. Aenean
+      faucibus mi ornare odio feugiat pulvinar. In posuere imperdiet augue, vitae interdum nisi porttitor et.
+    </p>
+    <p>
+      Vivamus tortor lectus, euismod a pellentesque sit amet, hendrerit eget risus. Mauris semper felis in vulputate dapibus. Duis condimentum euismod orci et porta. Vivamus id eros cursus lacus imperdiet tempus. Sed cursus sem nibh, sit amet consectetur quam
+      pulvinar id. Nam finibus, nibh ac fringilla efficitur, velit justo laoreet purus, a porta diam diam vulputate enim. Cras pulvinar ultrices erat, malesuada efficitur lectus tristique in. Vivamus eget tincidunt est. Sed felis elit, vestibulum in mauris
+      et, congue consequat nisi. Etiam massa quam, consectetur porta dolor vel, finibus pharetra lacus. Donec et nibh lectus. Praesent eget laoreet orci.
+    </p>
+    <p>
+      In tristique ligula in metus tempor, a convallis sem aliquet. Etiam laoreet ex a velit semper tempor. Donec sed congue metus, et consectetur sem. Fusce laoreet lacus vel turpis ullamcorper, quis pretium sapien tristique. Duis sed pretium ligula, nec tincidunt
+      dolor. Nulla ultricies tellus gravida nisi consectetur auctor. Vivamus libero massa, sagittis eu scelerisque tristique, finibus cursus erat. Fusce consequat odio sit amet orci finibus vehicula.
+    </p>
+    <div id="square-lazyload" class="ad" data-mad data-mad-adunit="/19968336/header-bid-tag-0" data-mad-size="[300,250]" data-mad-auto-refresh-in-seconds="30" data-mad-auto-refresh-limit="10" data-mad-lazyload-offset="100">
+    </div>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sapien ex, placerat at enim id, commodo sagittis nibh. Aliquam eleifend magna sit amet sodales egestas. Curabitur accumsan posuere ex. Phasellus interdum dictum ultricies. Mauris eleifend
+      placerat libero, eu congue metus elementum a. Quisque sed diam et ipsum lacinia sollicitudin. Aliquam eu tristique ante. Vestibulum at leo cursus, laoreet arcu ac, pretium dolor. Vivamus mattis urna sed felis blandit, sed mattis urna lobortis. Aenean
+      faucibus mi ornare odio feugiat pulvinar. In posuere imperdiet augue, vitae interdum nisi porttitor et.
+    </p>
+    <p>
+      Vivamus tortor lectus, euismod a pellentesque sit amet, hendrerit eget risus. Mauris semper felis in vulputate dapibus. Duis condimentum euismod orci et porta. Vivamus id eros cursus lacus imperdiet tempus. Sed cursus sem nibh, sit amet consectetur quam
+      pulvinar id. Nam finibus, nibh ac fringilla efficitur, velit justo laoreet purus, a porta diam diam vulputate enim. Cras pulvinar ultrices erat, malesuada efficitur lectus tristique in. Vivamus eget tincidunt est. Sed felis elit, vestibulum in mauris
+      et, congue consequat nisi. Etiam massa quam, consectetur porta dolor vel, finibus pharetra lacus. Donec et nibh lectus. Praesent eget laoreet orci.
+    </p>
+    <p>
+      In tristique ligula in metus tempor, a convallis sem aliquet. Etiam laoreet ex a velit semper tempor. Donec sed congue metus, et consectetur sem. Fusce laoreet lacus vel turpis ullamcorper, quis pretium sapien tristique. Duis sed pretium ligula, nec tincidunt
+      dolor. Nulla ultricies tellus gravida nisi consectetur auctor. Vivamus libero massa, sagittis eu scelerisque tristique, finibus cursus erat. Fusce consequat odio sit amet orci finibus vehicula.
+    </p>
+  </article>
+  <footer>
+    <p>
+      This is a footer.
+    </p>
+    <p>
+      All rights reserved and stuff.
+    </p>
+  </footer>
+</body>
+
+<script async src="../../build/dist/molotov-ads.js"></script>
+<script async src="../../build/dist/plugins/prebid-dfp.js"></script>
+<script>
+  var madOptions = {
+    PrebidDfp: {
+      PREBID_TIMEOUT: 50000,
+      adUnits: [{
+        code: 'square-adrotate',
+        sizes: [300, 250],
+        bids: [{
+          bidder: 'appnexus',
+          params: {
+            placementId: '10433394'
+          }
+        }]
+      }, {
+        code: 'square-lazyload',
+        sizes: [300, 250],
+        bids: [{
+          bidder: 'appnexus',
+          params: {
+            placementId: '10433394'
+          }
+        }]
+      }, {
+        code: 'desktopleaderboard',
+        sizes: [728, 90],
+        bids: [{
+          bidder: 'appnexus',
+          params: {
+            placementId: '10433394'
+          }
+        }]
+      }],
+      customTargets: {
+        tags: ["tag1", "tag2", "tag3"],
+        url: window.location.pathname,
+      },
+      onSlotRenderEnded: function(slot) {
+        //do something every time an ad is successfully rendered
+      }
+    }
+  };
+</script>
+
+</html>
