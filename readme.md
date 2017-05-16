@@ -44,8 +44,8 @@ After that, just pass some parameters to the desired element:
 
 You can find the documentation for each plugin here:
 
-*   [DoubleClick](src/plugins/doubleclick/readme.md)
-*   [Rubicon Fastlane (with DoubleClick)](src/plugins/rubicon-fastlane-dfp/readme.md)
+*   [DoubleClick](docs/doubleclick.md)
+*   [Rubicon Fastlane (with DoubleClick)](docs/rubicon.fastlane.dfp.md)
 
 ## Transparency
 
