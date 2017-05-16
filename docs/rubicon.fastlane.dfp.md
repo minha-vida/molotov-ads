@@ -1,6 +1,6 @@
 # Rubicon Fastlane (with DoubleClick) plugin
 
-This plugin supports the same parameters as our [DoubleClick plugin](/src/plugins/doubleclick).
+This plugin supports the same parameters as our [DoubleClick plugin](/docs/doubleclick.md).
 
 Remember, it's your responsibility to load both DFP and Rubicon libraries in your page. Molotov-ads does not load them for you.
 
