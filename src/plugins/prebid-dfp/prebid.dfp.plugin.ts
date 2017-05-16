@@ -28,27 +28,17 @@ export class PrebidDfpPlugIn implements PlugInInterface {
       });
 
       pbjs.que.push(function() {
+        Logger.infoWithTime("Adding adunits to prebid...");
         pbjs.addAdUnits(options.adUnits);
 
+        Logger.infoWithTime("Requesting bids...");
         pbjs.requestBids({
           bidsBackHandler: sendAdserverRequest
         });
       });
 
-      function sendAdserverRequest() {
-        if (pbjs.adserverRequestSent) return;
-
-        pbjs.adserverRequestSent = true;
-
-        googletag.cmd.push(function() {
-          pbjs.que.push(function() {
-            pbjs.setTargetingForGPTAsync();
-            googletag.pubads().refresh();
-          });
-        });
-      }
-
       setTimeout(function() {
+        Logger.infoWithTime("Timeout reached, will send ad server request");
         sendAdserverRequest();
       }, options.PREBID_TIMEOUT);
 
@@ -80,15 +70,40 @@ export class PrebidDfpPlugIn implements PlugInInterface {
         googletag.pubads().enableSingleRequest();
         googletag.enableServices();
 
-        for (let slotName in self.slots) {
-          googletag.display(self.slots[slotName].name);
-          Logger.logWithTime(self.slots[slotName].name, 'started displaying');
-        }
-
         self.onScrollRefreshLazyloadedSlots();
-
-        resolve();
       });
+
+      function sendAdserverRequest() {
+        if (pbjs.adserverRequestSent) return;
+
+        Logger.infoWithTime("Sending ad server request");
+        pbjs.adserverRequestSent = true;
+
+        googletag.cmd.push(function() {
+          pbjs.que.push(function() {
+
+            if (options.sendAllBids) {
+              Logger.infoWithTime("Enabling all bids");
+              pbjs.enableSendAllBids()
+            }
+
+            Logger.infoWithTime("setTargetingForGPTAsync called");
+            pbjs.setTargetingForGPTAsync();
+
+            if (options.logBids) {
+              Logger.infoWithTime("Bids returned, listing:");
+              Logger.log(pbjs.getAdserverTargeting());
+            }
+
+            for (let slotName in self.slots) {
+              self.slots[slotName].display();
+              Logger.logWithTime(self.slots[slotName].name, 'started displaying');
+            }
+
+            resolve();
+          });
+        });
+      }
     });
   }
 
@@ -108,15 +123,16 @@ export class PrebidDfpPlugIn implements PlugInInterface {
   private autoRefresh(slot: DoubleClickAdSlot) {
     var self = this;
     Logger.logWithTime(slot.name, 'started refreshing');
+
     pbjs.que.push(function() {
-            pbjs.requestBids({
-                timeout: 700,
-                bidsBackHandler: function() {
-                    pbjs.setTargetingForGPTAsync();
-                    slot.refresh();
-                }
-            });
-        });
+      pbjs.requestBids({
+        timeout: self.PREBID_TIMEOUT,
+        bidsBackHandler: function() {
+          pbjs.setTargetingForGPTAsync();
+          slot.refresh();
+        }
+      });
+    });
   }
 
   private getSlots() {
