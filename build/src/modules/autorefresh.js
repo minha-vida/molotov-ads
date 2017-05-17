@@ -4,12 +4,13 @@ var logger_1 = require("./logger");
 var viewport_1 = require("./viewport");
 var AutoRefresh;
 (function (AutoRefresh) {
-    function start(slot, refreshFunction) {
+    function start(slot, options, refreshFunction) {
+        if (options === void 0) { options = {}; }
         if (!slot.autoRefreshEnabled)
             return;
         if (slot.autoRefreshCounter <= slot.autoRefreshLimit) {
             logger_1.Logger.infoWithTime(slot.name, 'refreshing in', slot.autoRefreshTime, 'seconds (', slot.autoRefreshCounter, '/', slot.autoRefreshLimit, ')');
-            setTimeout(refreshSlotForAutoRotate, slot.autoRefreshTime * 1000, slot, refreshFunction);
+            setTimeout(refreshSlotForAutoRotate, slot.autoRefreshTime * 1000, slot, refreshFunction, options);
             slot.autoRefreshCounter++;
         }
         else {
@@ -18,15 +19,15 @@ var AutoRefresh;
         }
     }
     AutoRefresh.start = start;
-    function refreshSlotForAutoRotate(slot, refreshFunction) {
+    function refreshSlotForAutoRotate(slot, refreshFunction, options) {
         logger_1.Logger.logWithTime(slot.name, 'starting refresh for auto rotate');
-        AutoRefresh.refreshIfViewable(slot, refreshFunction);
+        AutoRefresh.refreshIfViewable(slot, refreshFunction, options);
     }
-    function refreshIfViewable(slot, refreshFunction) {
+    function refreshIfViewable(slot, refreshFunction, options) {
         if (document.hidden) {
             logger_1.Logger.logWithTime(slot.name, 'marked for refresh on visibilitychange');
             var visibilityBack = function () {
-                AutoRefresh.refreshIfViewable(slot, refreshFunction);
+                AutoRefresh.refreshIfViewable(slot, refreshFunction, options);
                 document.removeEventListener('visibilitychange', visibilityBack);
             };
             document.addEventListener('visibilitychange', visibilityBack);
@@ -34,13 +35,13 @@ var AutoRefresh;
         }
         var neededViewabilityPercentage = 50;
         if (viewport_1.Viewport.getCurrentViewabilityPercentage(slot.HTMLElement) >= neededViewabilityPercentage) {
-            refreshFunction(slot);
+            refreshFunction(slot, options);
         }
         else {
             logger_1.Logger.logWithTime(slot.name, 'viewablity lower than 50%, not refreshing');
             var intervalForRefresh = setInterval(function () {
                 if (viewport_1.Viewport.getCurrentViewabilityPercentage(slot.HTMLElement) >= neededViewabilityPercentage) {
-                    refreshFunction(slot);
+                    refreshFunction(slot, options);
                     clearInterval(intervalForRefresh);
                 }
             }, 5000);

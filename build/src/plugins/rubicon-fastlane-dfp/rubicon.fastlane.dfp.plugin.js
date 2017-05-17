@@ -53,7 +53,7 @@ var RubiconFastlaneDfp = (function () {
                     googletag.pubads().addEventListener('slotRenderEnded', function (event) {
                         logger_1.Logger.logWithTime(event.slot.getSlotElementId(), 'finished slot rendering');
                         var slot = self.slots[event.slot.getSlotElementId()];
-                        autorefresh_1.AutoRefresh.start(slot, self.autoRefresh);
+                        autorefresh_1.AutoRefresh.start(slot, options, self.autoRefresh);
                         if (options.onSlotRenderEnded)
                             options.onSlotRenderEnded(event);
                     });
@@ -96,7 +96,7 @@ var RubiconFastlaneDfp = (function () {
             }
         });
     };
-    RubiconFastlaneDfp.prototype.autoRefresh = function (slot) {
+    RubiconFastlaneDfp.prototype.autoRefresh = function (slot, options) {
         logger_1.Logger.logWithTime(slot.name, 'started refreshing');
         if (slot.rubiconPosition) {
             rubicontag.cmd.push(function () {

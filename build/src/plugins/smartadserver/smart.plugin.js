@@ -24,7 +24,7 @@ var SmartPlugIn = (function () {
             window['sasCallback'] = function (event) {
                 logger_1.Logger.logWithTime(sas.info[event].divId, 'finished slot rendering');
                 var slot = self.slots[sas.info[event].divId];
-                autorefresh_1.AutoRefresh.start(slot, self.autoRefresh);
+                autorefresh_1.AutoRefresh.start(slot, options, self.autoRefresh);
                 if (options.sasCallback)
                     options.sasCallback(event);
             };
@@ -50,7 +50,7 @@ var SmartPlugIn = (function () {
             }
         });
     };
-    SmartPlugIn.prototype.autoRefresh = function (slot) {
+    SmartPlugIn.prototype.autoRefresh = function (slot, options) {
         logger_1.Logger.logWithTime(slot.name, 'started refreshing');
         slot.refresh();
     };

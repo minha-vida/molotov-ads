@@ -43,7 +43,7 @@ var PrebidDfpPlugIn = (function () {
                 googletag.pubads().addEventListener('slotRenderEnded', function (event) {
                     logger_1.Logger.logWithTime(event.slot.getSlotElementId(), 'finished slot rendering');
                     var slot = self.slots[event.slot.getSlotElementId()];
-                    autorefresh_1.AutoRefresh.start(slot, self.autoRefresh);
+                    autorefresh_1.AutoRefresh.start(slot, options, self.autoRefresh);
                     if (options.onSlotRenderEnded)
                         options.onSlotRenderEnded(event);
                 });
@@ -91,12 +91,11 @@ var PrebidDfpPlugIn = (function () {
             }
         });
     };
-    PrebidDfpPlugIn.prototype.autoRefresh = function (slot) {
-        var self = this;
+    PrebidDfpPlugIn.prototype.autoRefresh = function (slot, options) {
         logger_1.Logger.logWithTime(slot.name, 'started refreshing');
         pbjs.que.push(function () {
             pbjs.requestBids({
-                timeout: self.PREBID_TIMEOUT,
+                timeout: options.PREBID_TIMEOUT,
                 bidsBackHandler: function () {
                     pbjs.setTargetingForGPTAsync();
                     slot.refresh();
