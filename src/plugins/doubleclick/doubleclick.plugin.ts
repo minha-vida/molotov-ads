@@ -34,7 +34,7 @@ export class DoubleClickPlugIn implements PlugInInterface {
                     Logger.logWithTime(event.slot.getSlotElementId(), 'finished slot rendering');
 
                     let slot = self.slots[event.slot.getSlotElementId()];
-                    AutoRefresh.start(slot, self.autoRefresh);
+                    AutoRefresh.start(slot, options, self.autoRefresh);
 
                     if (options.onSlotRenderEnded)
                         options.onSlotRenderEnded(event);
@@ -70,7 +70,7 @@ export class DoubleClickPlugIn implements PlugInInterface {
         });
     }
 
-    private autoRefresh(slot: DoubleClickAdSlot) {
+    private autoRefresh(slot: DoubleClickAdSlot, options: any) {
         Logger.logWithTime(slot.name, 'started refreshing');
         slot.refresh();
     }

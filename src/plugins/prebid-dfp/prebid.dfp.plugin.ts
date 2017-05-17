@@ -59,7 +59,7 @@ export class PrebidDfpPlugIn implements PlugInInterface {
           Logger.logWithTime(event.slot.getSlotElementId(), 'finished slot rendering');
 
           let slot = self.slots[event.slot.getSlotElementId()];
-          AutoRefresh.start(slot, self.autoRefresh);
+          AutoRefresh.start(slot, options, self.autoRefresh);
 
           if (options.onSlotRenderEnded)
             options.onSlotRenderEnded(event);
@@ -120,13 +120,12 @@ export class PrebidDfpPlugIn implements PlugInInterface {
     });
   }
 
-  private autoRefresh(slot: DoubleClickAdSlot) {
-    var self = this;
+  private autoRefresh(slot: DoubleClickAdSlot, options: any) {
     Logger.logWithTime(slot.name, 'started refreshing');
 
     pbjs.que.push(function() {
       pbjs.requestBids({
-        timeout: self.PREBID_TIMEOUT,
+        timeout: options.PREBID_TIMEOUT,
         bidsBackHandler: function() {
           pbjs.setTargetingForGPTAsync();
           slot.refresh();

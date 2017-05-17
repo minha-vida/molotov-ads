@@ -31,7 +31,7 @@ export class SmartPlugIn implements PlugInInterface {
                 Logger.logWithTime(sas.info[event].divId, 'finished slot rendering');
 
                 let slot = self.slots[sas.info[event].divId];
-                AutoRefresh.start(slot, self.autoRefresh);
+                AutoRefresh.start(slot, options, self.autoRefresh);
 
                 if (options.sasCallback)
                     options.sasCallback(event);
@@ -62,7 +62,7 @@ export class SmartPlugIn implements PlugInInterface {
         });
     }
 
-    private autoRefresh(slot: SmartAdSlot) {
+    private autoRefresh(slot: SmartAdSlot, options: any) {
         Logger.logWithTime(slot.name, 'started refreshing');
         slot.refresh();
     }
