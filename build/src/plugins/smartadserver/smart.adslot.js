@@ -37,6 +37,11 @@ var SmartAdSlot = (function (_super) {
             return;
         sas.render(this.smartAdId);
     };
+    SmartAdSlot.prototype.std = function (options) {
+        sas.cmd.push(function () {
+            sas.call("std", options);
+        });
+    };
     return SmartAdSlot;
 }(adslot_1.AdSlot));
 exports.SmartAdSlot = SmartAdSlot;

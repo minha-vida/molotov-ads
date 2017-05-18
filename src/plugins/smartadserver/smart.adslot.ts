@@ -32,4 +32,10 @@ export class SmartAdSlot extends AdSlot {
 
         sas.render(this.smartAdId);
     }
+    
+    std(options: any) {
+        sas.cmd.push(function() {
+            sas.call("std", options);
+        });
+    }
 }

@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Logger;
 (function (Logger) {
     var devModeEnabled = location.hash.indexOf('development') >= 0;

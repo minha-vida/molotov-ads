@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Viewport;
 (function (Viewport) {
     function isElementInViewport(element, threshold) {

@@ -46,6 +46,7 @@ You can find the documentation for each plugin here:
 
 *   [DoubleClick](docs/doubleclick.md)
 *   [Rubicon Fastlane (with DoubleClick)](docs/rubicon.fastlane.dfp.md)
+*   [SmartAdserver](docs/smartadserver.md)
 
 ## Transparency
 
