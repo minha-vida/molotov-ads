@@ -1,8 +1,8 @@
-# Prebid.js DoubleClick plugin
+# Prebid.js SmartAdserver plugin
 
-This plugin supports the same parameters as our [DoubleClick plugin](/docs/doubleclick.md).
+This plugin supports the same parameters as our [SmartAdserver plugin](/docs/smartadserver.md).
 
-Remember, molotov-ads does not load the DFP library. It's your responsibility to load it in your page.
+Remember, molotov-ads does not load the SmartAdserver library. It's your responsibility to load it in your page.
 
 You will also have to load the prebid.js code on your page.
 
