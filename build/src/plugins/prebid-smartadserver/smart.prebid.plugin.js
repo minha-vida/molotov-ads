@@ -65,12 +65,7 @@ var SmartPrebidPlugIn = (function () {
                         if (self.slots[slotName].lazyloadOffset) {
                             continue;
                         }
-                        self.slots[slotName].std({
-                            siteId: options.siteId,
-                            pageId: options.pageId,
-                            formatId: self.slots[slotName].smartAdId,
-                            target: options.target + self.getPbTarget(),
-                        });
+                        self.slots[slotName].render();
                         logger_1.Logger.log(self.name, 'ad slot rendered: ', self.slots[slotName]);
                     }
                     resolve();
@@ -96,12 +91,7 @@ var SmartPrebidPlugIn = (function () {
             for (var slotName in self.slots) {
                 var slot = self.slots[slotName];
                 if (slot.lazyloadEnabled && viewport_1.Viewport.isElementInViewport(slot.HTMLElement, slot.lazyloadOffset)) {
-                    slot.std({
-                        siteId: self.options.siteId,
-                        pageId: self.options.pageId,
-                        formatId: slot.smartAdId,
-                        target: self.options.target + self.getPbTarget(),
-                    });
+                    slot.refresh();
                     slot.lazyloadEnabled = false;
                 }
             }
