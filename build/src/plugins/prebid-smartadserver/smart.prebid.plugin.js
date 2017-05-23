@@ -17,14 +17,6 @@ var SmartPrebidPlugIn = (function () {
         this.PREBID_TIMEOUT = options.PREBID_TIMEOUT;
         this.options = options;
         return new Promise(function (resolve, reject) {
-            sas.cmd.push(function () {
-                sas.call("onecall", {
-                    siteId: options.siteId,
-                    pageId: options.pageId,
-                    formatId: options.formatId,
-                    target: options.target
-                });
-            });
             window['sasCallback'] = function (event) {
                 logger_1.Logger.logWithTime(sas.info[event].divId, 'finished slot rendering');
                 var slot = self.slots[sas.info[event].divId];
@@ -50,6 +42,14 @@ var SmartPrebidPlugIn = (function () {
             function sendAdserverRequest() {
                 if (pbjs.adserverRequestSent)
                     return;
+                sas.cmd.push(function () {
+                    sas.call("onecall", {
+                        siteId: options.siteId,
+                        pageId: options.pageId,
+                        formatId: options.formatId,
+                        target: options.target + self.getPbTarget(),
+                    });
+                });
                 logger_1.Logger.infoWithTime("Sending ad server request");
                 pbjs.adserverRequestSent = true;
                 pbjs.que.push(function () {

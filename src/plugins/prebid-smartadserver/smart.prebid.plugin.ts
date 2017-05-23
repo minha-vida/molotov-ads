@@ -27,15 +27,6 @@ export class SmartPrebidPlugIn implements PlugInInterface {
     
     return new Promise<void>(function(resolve, reject) {
 
-      sas.cmd.push(function() {
-        sas.call("onecall", {
-          siteId: options.siteId,
-          pageId: options.pageId,
-          formatId: options.formatId,
-          target: options.target
-        });
-      });
-
       window['sasCallback'] = function(event) {
         Logger.logWithTime(sas.info[event].divId, 'finished slot rendering');
 
@@ -68,6 +59,16 @@ export class SmartPrebidPlugIn implements PlugInInterface {
       function sendAdserverRequest() {
 
         if (pbjs.adserverRequestSent) return;
+
+        sas.cmd.push(function() {
+          sas.call("onecall", {
+            siteId: options.siteId,
+            pageId: options.pageId,
+            formatId: options.formatId,
+            target: options.target + self.getPbTarget(),
+          });
+        });
+
 
         Logger.infoWithTime("Sending ad server request");
         pbjs.adserverRequestSent = true;
