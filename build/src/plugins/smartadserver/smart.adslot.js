@@ -30,7 +30,7 @@ var SmartAdSlot = (function (_super) {
         return _this;
     }
     SmartAdSlot.prototype.refresh = function () {
-        sas.refresh(this.smartAdId);
+        sas.render(this.smartAdId);
     };
     SmartAdSlot.prototype.render = function () {
         if (this.lazyloadEnabled)

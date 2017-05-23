@@ -90,13 +90,7 @@ export class SmartPrebidPlugIn implements PlugInInterface {
               continue;
             }
 
-            self.slots[slotName].std({
-              siteId:     options.siteId,  
-              pageId:     options.pageId, 
-              formatId:   self.slots[slotName].smartAdId,
-              target:     options.target + self.getPbTarget(),
-            });
-
+            self.slots[slotName].render();
             Logger.log(self.name, 'ad slot rendered: ', self.slots[slotName]);
           }
           resolve();
@@ -126,12 +120,7 @@ export class SmartPrebidPlugIn implements PlugInInterface {
       for (let slotName in self.slots) {
         let slot: SmartAdSlot = self.slots[slotName];
         if (slot.lazyloadEnabled && Viewport.isElementInViewport(slot.HTMLElement, slot.lazyloadOffset)) {
-          slot.std({
-            siteId:     self.options.siteId,  
-            pageId:     self.options.pageId, 
-            formatId:   slot.smartAdId,
-            target:     self.options.target + self.getPbTarget(),
-          });
+          slot.refresh();
           slot.lazyloadEnabled = false;
         }
       }

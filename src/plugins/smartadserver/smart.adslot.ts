@@ -24,7 +24,7 @@ export class SmartAdSlot extends AdSlot {
     }
 
     refresh() {
-        sas.refresh(this.smartAdId);
+        sas.render(this.smartAdId);
     }
 
     render() {
