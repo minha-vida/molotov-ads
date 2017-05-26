@@ -24,12 +24,18 @@ export class SmartAdSlot extends AdSlot {
     }
 
     refresh() {
-        sas.refresh(this.smartAdId);
+        sas.render(this.smartAdId);
     }
 
     render() {
         if (this.lazyloadEnabled) return;
 
         sas.render(this.smartAdId);
+    }
+    
+    std(options: any) {
+        sas.cmd.push(function() {
+            sas.call("std", options);
+        });
     }
 }
