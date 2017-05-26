@@ -149,6 +149,7 @@ export class SmartPrebidPlugIn implements PlugInInterface {
     pbjs.que.push(function() {
       pbjs.requestBids({
         timeout: options.PREBID_TIMEOUT,
+        adUnitCodes: [slot.smartAdId],
         bidsBackHandler: function() {
           slot.std({
             siteId:     options.siteId,  
