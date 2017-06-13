@@ -17,10 +17,55 @@ var SmartPrebidPlugIn = (function () {
         this.PREBID_TIMEOUT = options.PREBID_TIMEOUT;
         this.options = options;
         return new Promise(function (resolve, reject) {
+            function callIas(a) {
+                var random = Math.floor(Math.random() * 1000000000);
+                var integral = document.createElement('div');
+                integral.id = 'ias-' + random;
+                var el = document.getElementById(sas.info[a].divId);
+                el.appendChild(integral);
+                var iasScriptUrl, hiddenFrame, hiddenDoc, where, domain;
+                iasScriptUrl = '//pixel.adsafeprotected.com/jload?anId=922503&campId=' + sas.info[a].creativeWidth + 'x' + sas.info[a].creativeHeight + '&pubId=' + sas.info[a].advertiserId + '&chanId=' + sas.info[a].formatId + '&placementId=' + sas.info[a].insertionId + '&pubCreative=' + sas.info[a].creativeId + '&pubOrder=' + sas.info[a].campaignId + '&cb=' + random;
+                hiddenFrame = document.createElement('iframe');
+                (hiddenFrame.frameElement || hiddenFrame).style.cssText = "width: 0; height: 0; border: 0; display: none;";
+                hiddenFrame.src = 'javascript:false';
+                where = integral;
+                where.parentNode.insertBefore(hiddenFrame, where);
+                try {
+                    hiddenDoc = hiddenFrame.contentWindow.document;
+                }
+                catch (e) {
+                    domain = document.domain;
+                    hiddenFrame.src = "javascript:var d=document.open();d.domain='" + domain + "';void(0);";
+                    hiddenDoc = hiddenFrame.contentWindow.document;
+                }
+                hiddenDoc.open().write('<body onload="' + 'window.__IntegralASUseFIF = true;' + 'var js = document.createElement(\'script\');' + 'js.src = \'' + iasScriptUrl + '\';' + 'document.body.appendChild(js);">');
+                hiddenDoc.close();
+            }
+            function callcomScore(a) {
+                var random = Math.floor(Math.random() * 1000000000);
+                var el = document.getElementById(sas.info[a].divId);
+                if (/Android|webOS|iPhone|iPad|BlackBerry|Windows Phone|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent)) {
+                    var comScorePixel = document.createElement("img");
+                    comScorePixel.src = "http://b.scorecardresearch.com/p?c1=8&c2=6035191&c3=" + options.siteId + "&ns_ap_it=b&rn=" + random;
+                    el.appendChild(comScorePixel);
+                }
+                else {
+                    var _comscore = _comscore || [];
+                    _comscore.push({ c1: "8", c2: "6035191", c3: options.siteId });
+                    (function () {
+                        var s = document.createElement("script");
+                        s.async = true;
+                        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+                        el.appendChild(s);
+                    })();
+                }
+            }
             window['sasCallback'] = function (event) {
                 logger_1.Logger.logWithTime(sas.info[event].divId, 'finished slot rendering');
                 var slot = self.slots[sas.info[event].divId];
                 autorefresh_1.AutoRefresh.start(slot, options, self.autoRefresh);
+                callIas(event);
+                callcomScore(event);
                 if (options.sasCallback)
                     options.sasCallback(event);
             };
