@@ -17,7 +17,7 @@ Your madOptions should be:
             formatId: '20055,20056,28234',        
             target: 'target1;target2;',
             PREBID_TIMEOUT: 1000,
-            sendAllBids: false,
+            sendAllBids: true,
             logBids: true,
             adUnits: [{}]
         }

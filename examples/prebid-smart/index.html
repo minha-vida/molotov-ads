@@ -4,6 +4,7 @@
 
   <script src="http://ced.sascdn.com/tag/924/smart.js" async></script>
   <script type="text/javascript" src="prebid.js" async></script>
+
   <script>
     var sas = sas || {};
     sas.cmd = sas.cmd || [];
@@ -17,76 +18,253 @@
     pbjs.que = pbjs.que || [];
 
     pbjs.que.push(function() {
-          pbjs.bidderSettings = {
-            standard: {
-              adserverTargeting: [{
-                key: "bidder",
-                val: function(bidResponse) {
-                  return bidResponse.bidderCode;
-                }
-              }, {
-                key: "adid",
-                val: function(bidResponse) {
-                  return bidResponse.adId;
-                }
-              }, {
-                key: "size",
-                val: function(bidResponse) {
-                  return bidResponse.size;
-                }
-              }, {
-                key: "bid_price",
-                val: function(bidResponse) {
-                  var cpm = bidResponse.cpm;
-                  if (cpm < 1.00) {
-                    return (Math.floor(cpm * 20) / 20).toFixed(2);
-                  } else if (cpm < 5.00) {
-                    return (Math.floor(cpm * 10) / 10).toFixed(2);
-                  } else if (cpm < 10.00) {
-                    return (Math.floor(cpm * 5) / 5).toFixed(2);
-                  } else if (cpm < 20.00) {
-                    return (Math.floor(cpm * 2) / 2).toFixed(2);
-                  } else if (cpm < 50.00) {
-                    return (Math.floor(cpm * 1) / 1).toFixed(2);
-                  } else if (cpm < 100.00) {
-                    return (Math.floor(cpm * 0.2) / 0.2).toFixed(2);
-                  } else if (cpm < 300.00) {
-                    return (Math.floor(cpm * 0.04) / 0.04).toFixed(2);
-                  } else {
-                    return '300.00';
-                  }
-                }
-              }]
+      pbjs.bidderSettings = {
+        standard: {
+          adserverTargeting: [{
+            key: "bidder",
+            val: function(bidResponse) {
+              return bidResponse.bidderCode;
             }
-          };
-        });
+          }, {
+            key: "adid",
+            val: function(bidResponse) {
+              return bidResponse.adId;
+            }
+          }, {
+            key: "size",
+            val: function(bidResponse) {
+              return bidResponse.size;
+            }
+          }, {
+            key: "bid_price",
+            val: function(bidResponse) {
+              var cpm = bidResponse.cpm;
+              if (cpm < 1.00) {
+                return (Math.floor(cpm * 20) / 20).toFixed(2);
+              } else if (cpm < 5.00) {
+                return (Math.floor(cpm * 10) / 10).toFixed(2);
+              } else if (cpm < 10.00) {
+                return (Math.floor(cpm * 5) / 5).toFixed(2);
+              } else if (cpm < 20.00) {
+                return (Math.floor(cpm * 2) / 2).toFixed(2);
+              } else if (cpm < 50.00) {
+                return (Math.floor(cpm * 1) / 1).toFixed(2);
+              } else if (cpm < 100.00) {
+                return (Math.floor(cpm * 0.2) / 0.2).toFixed(2);
+              } else if (cpm < 300.00) {
+                return (Math.floor(cpm * 0.04) / 0.04).toFixed(2);
+              } else {
+                return '300.00';
+              }
+            }
+          }]
+        }
+      };
+    });
+
+    var PREBID_TIMEOUT = 14000; //define your timeout
+    var adUnits = [];
+    
+    adUnits.push({
+      code: "20055",
+      sizes: [[300,250], [300,600]],
+      bids: [{
+        bidder: 'appnexus',
+        params: {
+          placementId: '5756256'
+        }
+      },{
+        bidder: "rubicon",
+        params: {
+          accountId: "13624",
+          siteId: "69052",
+          zoneId: "643018",
+          sizes: [15,10],
+          position: "ATF",
+          inventory: {
+            adunit: "sas_20055",
+            position: "ATF"
+          },
+          visitor: profileTailTarget
+        }
+      },{
+        bidder: 'smartadserver',
+        params: {
+          domain: "http://www5.smartadserver.com",
+          siteId: "79174",
+          pageId: "578000",
+          formatId: "20055",
+          target: target
+        }
+      }]
+    })
+    
+    adUnits.push({
+      code: "20056",
+      sizes: [[300,250], [300,600]],
+      bids: [{
+        bidder: 'appnexus',
+        params: {
+          placementId: '5756257'
+        }
+      },{
+        bidder: "rubicon",
+        params: {
+          accountId: "13624",
+          siteId: "69052",
+          zoneId: "643018",
+          sizes: [15,10],
+          position: "MTF",
+          inventory: {
+            adunit: "sas_20056",
+            position: "MTF"
+          },
+          visitor: profileTailTarget
+        }
+      },{
+        bidder: 'smartadserver',
+        params: {
+          domain: "http://www5.smartadserver.com",
+          siteId: "79174",
+          pageId: "578000",
+          formatId: "20056",
+          target: target
+        }
+      }]
+    })
+    
+    adUnits.push({
+      code: "20009",
+      sizes: [[728,90], [970,250]],
+      bids: [{
+        bidder: 'appnexus',
+        params: {
+          placementId: '5756253'
+        }
+      },{
+        bidder: "rubicon",
+        params: {
+          accountId: "13624",
+          siteId: "69052",
+          zoneId: "643018",
+          sizes: [2,57],
+          position: "ATF",
+          inventory: {
+            adunit: "sas_20009",
+            position: "ATF"
+          },
+          visitor: profileTailTarget
+        }
+      },{
+        bidder: 'smartadserver',
+        params: {
+          domain: "http://www5.smartadserver.com",
+          siteId: "79174",
+          pageId: "578000",
+          formatId: "20009",
+          target: target
+        }
+      }]
+    })
+    
+    adUnits.push({
+      code: "30352",
+      sizes: [[728,90], [970,250]],
+      bids: [{
+        bidder: 'appnexus',
+        params: {
+          placementId: '5756255'
+        }
+      },{
+        bidder: "rubicon",
+        params: {
+          accountId: "13624",
+          siteId: "69052",
+          zoneId: "643018",
+          sizes: [2,57],
+          position: "BTF",
+          inventory: {
+            adunit: "sas_30352",
+            position: "BTF"
+          },
+          visitor: profileTailTarget
+        }
+      },{
+        bidder: 'smartadserver',
+        params: {
+          domain: "http://www5.smartadserver.com",
+          siteId: "79174",
+          pageId: "578000",
+          formatId: "30352",
+          target: target
+        }
+      }]
+    })
 
   </script>
   <title></title>
 </head>
 <body>
 
-<p>Mussum Ipsum, cacilds vidis litro abertis. Casamentiss faiz malandris se pirulitá. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Leite de capivaris, leite de mula manquis sem cabeça. Tá deprimidis, eu conheço uma cachacis que pode alegrar sua vidis.</p>
+  <div id="sas_20009" data-mad="" data-mad-smartad-id="20009" data-mad-auto-refresh-in-seconds="20" data-mad-auto-refresh-limit="999"></div>
 
-<p>Praesent malesuada urna nisi, quis volutpat erat hendrerit non. Nam vulputate dapibus. Paisis, filhis, espiritis santis. Per aumento de cachacis, eu reclamis. Suco de cevadiss deixa as pessoas mais interessantis.</p>
+  <p>Mussum Ipsum, cacilds vidis litro abertis. Casamentiss faiz malandris se pirulitá. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Leite de capivaris, leite de mula manquis sem cabeça. Tá deprimidis, eu conheço uma cachacis que pode alegrar sua vidis.</p>
 
-<p>Copo furadis é disculpa de bebadis, arcu quam euismod magna. Manduma pindureta quium dia nois paga. Interagi no mé, cursus quis, vehicula ac nisi. Aenean aliquam molestie leo, vitae iaculis nisl.</p>
+  <p>Praesent malesuada urna nisi, quis volutpat erat hendrerit non. Nam vulputate dapibus. Paisis, filhis, espiritis santis. Per aumento de cachacis, eu reclamis. Suco de cevadiss deixa as pessoas mais interessantis.</p>
 
-<p>Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Si num tem leite então bota uma pinga aí cumpadi! Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Detraxit consequat et quo num tendi nada.</p>
+  <p>Copo furadis é disculpa de bebadis, arcu quam euismod magna. Manduma pindureta quium dia nois paga. Interagi no mé, cursus quis, vehicula ac nisi. Aenean aliquam molestie leo, vitae iaculis nisl.</p>
 
- <div id="sas_20055" data-mad="" data-mad-smartad-id="20055" data-mad-lazyload-offset="100" data-mad-auto-refresh-in-seconds="20" data-mad-auto-refresh-limit="999"></div>
+  <p>Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Si num tem leite então bota uma pinga aí cumpadi! Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Detraxit consequat et quo num tendi nada.</p>
 
-<p>Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Quem num gosta di mé, boa gentis num é. Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo! Viva Forevis aptent taciti sociosqu ad litora torquent.</p>
+  <div id="sas_20055" data-mad="" data-mad-smartad-id="20055" data-mad-auto-refresh-in-seconds="20" data-mad-auto-refresh-limit="999"></div>
 
-<p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
+  <p>Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Quem num gosta di mé, boa gentis num é. Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo! Viva Forevis aptent taciti sociosqu ad litora torquent.</p>
 
-<p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
+  <p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
 
-<p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
+  <p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
 
-<p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
+  <div id="sas_20056" data-mad="" data-mad-smartad-id="20056" data-mad-lazyload-offset="10" data-mad-auto-refresh-in-seconds="20" data-mad-auto-refresh-limit="999"></div>
 
-  <div id="sas_20056" data-mad="" data-mad-smartad-id="20056" data-mad-lazyload-offset="100" data-mad-auto-refresh-in-seconds="20" data-mad-auto-refresh-limit="999"></div>
+  <p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
+
+  <p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
+
+  <p>Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Quem num gosta di mé, boa gentis num é. Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo! Viva Forevis aptent taciti sociosqu ad litora torquent.</p>
+
+  <p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
+
+  <p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
+
+  <div id="sas_30351" data-mad="" data-mad-smartad-id="30351" data-mad-lazyload-offset="10" data-mad-auto-refresh-in-seconds="20" data-mad-auto-refresh-limit="999"></div>
+
+  <p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
+
+  <p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
+  
+  <p>Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Quem num gosta di mé, boa gentis num é. Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo! Viva Forevis aptent taciti sociosqu ad litora torquent.</p>
+
+  <div id="sas_30352" data-mad="" data-mad-smartad-id="30352" data-mad-lazyload-offset="10" data-mad-auto-refresh-in-seconds="20" data-mad-auto-refresh-limit="999"></div>
+
+  <p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
+
+  <p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
+
+  <p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
+
+  <p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
+
+  <div id="sas_34242" data-mad="" data-mad-smartad-id="34242" data-mad-lazyload-offset="10" data-mad-auto-refresh-in-seconds="20" data-mad-auto-refresh-limit="999"></div>
+
+  <p>Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Quem num gosta di mé, boa gentis num é. Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo! Viva Forevis aptent taciti sociosqu ad litora torquent.</p>
+
+  <p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
+
+  <p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
+
+  <p>Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Pra lá , depois divoltis porris, paradis. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Mé faiz elementum girarzis, nisi eros vermeio.</p>
+
+  <p>Atirei o pau no gatis, per gatis num morreus. Diuretics paradis num copo é motivis de denguis. A ordem dos tratores não altera o pão duris. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.</p>
 
   <script type="text/javascript" src="molotov-ads.js" async></script>
   <script type="text/javascript" src="plugins/prebid-smartadserver.js" async></script>
@@ -95,80 +273,16 @@
     var madOptions = {
       PrebidSmart: {
         siteId: 79174,
-        pageId: 578000,
-        formatId: '20055',        
-        target: 'tga=4;tgg=2;tgp=65;tgp=69;tgp=22;tgp=56;tgs=11;tge=2;tgc=1;content_id=home;PQ_ThCeO8=XXAU-li270;PQ_Vj8tat=XXAU-li269;',
-        PREBID_TIMEOUT: 14000,
+        pageId: "578000",
+        formatId: "20009,23428,46253,46254,42416,44766,20055,31715,34234,20056,30352",
+        target: target,
+        PREBID_TIMEOUT: PREBID_TIMEOUT,
         sendAllBids: true,
         logBids: true,
-        adUnits: [{
-          code: '20055',
-          sizes: [[300,250], [300,600]],
-          bids: [{
-            bidder: 'appnexus',
-            params: {
-              placementId: '5756256'
-            }
-          },{
-            bidder: "rubicon",
-            params: {
-              accountId: "13624",
-              siteId: "69052",
-              zoneId: "643018",
-              sizes: [15,10],
-              position: "ATF",
-              inventory: {
-                adunit: "sas_20055",
-                position: "ATF"
-              },
-              visitor: {"age":"4","gender":"2","cluster":"65,69,22,56","subjects":"11","team":"na","equipment":"2","socialclass":"1","microsegments":"na","lists":"","ca":""}
-            }
-          },{
-            bidder: 'smartadserver',
-            params: {
-              domain: "http://www5.smartadserver.com",
-              siteId: "79174",
-              pageId: "578000",
-              formatId: "20055",
-              target: "tga=4;tgg=2;tgp=65;tgp=69;tgp=22;tgp=56;tgs=11;tge=2;tgc=1;content_id=home;PQ_ThCeO8=XXAU-li270;PQ_Vj8tat=XXAU-li269;"
-            }
-          }]
-        },{
-          code: "20056",
-          sizes: [[300,250], [300,600]],
-          bids: [{
-            bidder: 'appnexus',
-            params: {
-              placementId: '5756257'
-            }
-          },{
-            bidder: "rubicon",
-            params: {
-              accountId: "13624",
-              siteId: "69052",
-              zoneId: "643018",
-              sizes: [15,10],
-              position: "MTF",
-              inventory: {
-                adunit: "sas_20056",
-                position: "MTF"
-              },
-              visitor: {"age":"4","gender":"2","cluster":"65,69,22,56","subjects":"11","team":"na","equipment":"2","socialclass":"1","microsegments":"na","lists":"","ca":""}
-            }
-          },{
-            bidder: 'smartadserver',
-            params: {
-              domain: "http://www5.smartadserver.com",
-              siteId: "79174",
-              pageId: "578000",
-              formatId: "20056",
-              target: "tga=4;tgg=2;tgp=65;tgp=69;tgp=22;tgp=56;tgs=11;tge=2;tgc=1;content_id=home;PQ_ThCeO8=XXAU-li270;PQ_Vj8tat=XXAU-li269;"
-             }
-          }]
-        }]
-    }
-  };
-</script>
+        adUnits: adUnits
+      }
+    };
+  </script>
 
 </body>
 </html>
