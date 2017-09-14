@@ -126,8 +126,9 @@ export class PrebidDfpPlugIn implements PlugInInterface {
     pbjs.que.push(function() {
       pbjs.requestBids({
         timeout: options.PREBID_TIMEOUT,
+        adUnitCodes: [slot.name],
         bidsBackHandler: function() {
-          pbjs.setTargetingForGPTAsync();
+          pbjs.setTargetingForGPTAsync([slot.name]);
           slot.refresh();
         }
       });
