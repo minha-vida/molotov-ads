@@ -36,12 +36,20 @@ export class DoubleClickAdSlot extends AdSlot {
         }
     }
 
+    addSizeMapping(sizes) {
+        this.doubleclickAdSlot.defineSizeMapping(sizes);
+    }
+
+    addSetTargeting(target){
+        this.doubleclickAdSlot.setTargeting('position', target);
+    }
+
+    addCollapseEmptyDivs(val1, val2){
+        this.doubleclickAdSlot.setCollapseEmptyDiv(val1, val2);
+    }
+
     display() {
         googletag.display(this.name);
-
-        if (this.lazyloadEnabled) return;
-
-        this.refresh();
     }
 
     refresh() {

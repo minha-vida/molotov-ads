@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var AdSlot = (function () {
+var AdSlot = /** @class */ (function () {
     function AdSlot(HTMLElement) {
         this.HTMLElement = HTMLElement;
         this.lazyloadEnabled = false;

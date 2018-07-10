@@ -4,7 +4,7 @@ var viewport_1 = require("../../modules/viewport");
 var rubicon_fastlane_dfp_adslot_1 = require("./rubicon.fastlane.dfp.adslot");
 var logger_1 = require("../../modules/logger");
 var autorefresh_1 = require("../../modules/autorefresh");
-var RubiconFastlaneDfp = (function () {
+var RubiconFastlaneDfp = /** @class */ (function () {
     function RubiconFastlaneDfp() {
         this.name = "RubiconFastlaneDfp";
         this.slots = {};

@@ -21,6 +21,12 @@ export class DoubleClickPlugIn implements PlugInInterface {
                 for (let slotName in self.slots) {
                     self.slots[slotName].defineSlot();
                     Logger.log(self.name, 'ad slot defined: ', self.slots[slotName]);
+                    if(options.sizes[slotName]) {
+                        self.slots[slotName].addSizeMapping(options.sizes[slotName]);
+                    }
+                    if (options.target[slotName]) {
+                        self.slots[slotName].addSetTargeting(options.target[slotName]);
+                    }
                 }
 
                 for (let item in options.customTargets) {

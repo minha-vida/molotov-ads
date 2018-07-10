@@ -24,4 +24,16 @@ export module AdSlotLoader {
             return resolve(slots);
         });
     }
+
+    export function loadSlot(el: HTMLElement) {
+        return new Promise(function (resolve, reject) {
+            let slots = {};
+
+                let element = <HTMLElement>el;
+                slots[element.id] = new AdSlot(element);
+
+            return resolve(slots);
+        });
+    }
+
 }

@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var doubleclick_adslot_1 = require("../doubleclick/doubleclick.adslot");
-var RubiconFastlaneDfpAdSlot = (function (_super) {
+var RubiconFastlaneDfpAdSlot = /** @class */ (function (_super) {
     __extends(RubiconFastlaneDfpAdSlot, _super);
     function RubiconFastlaneDfpAdSlot(HTMLElement) {
         var _this = _super.call(this, HTMLElement) || this;

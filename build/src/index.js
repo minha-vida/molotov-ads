@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var logger_1 = require("./modules/logger");
 var loader_adslot_1 = require("./modules/loader.adslot");
-var MolotovAds = (function () {
+var MolotovAds = /** @class */ (function () {
     function MolotovAds() {
         this.slots = {};
         this.plugins = [];
@@ -21,6 +21,14 @@ var MolotovAds = (function () {
             self.initAllPlugins();
         });
     }
+    MolotovAds.prototype.loadSlot = function (el) {
+        var self = this;
+        loader_adslot_1.AdSlotLoader.loadSlot(el).then(function (slots) {
+            self.slots[el.id] = slots[el.id];
+            var event = new CustomEvent('madSlotLoaded', { detail: self.slots[el.id] });
+            document.dispatchEvent(event);
+        });
+    };
     MolotovAds.prototype.loadPlugin = function (plugin) {
         logger_1.Logger.infoWithTime("Plugin", plugin.name, "loaded");
         window._molotovAds.plugins.push(plugin);

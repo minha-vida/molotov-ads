@@ -4,7 +4,7 @@ var smart_adslot_1 = require("./smart.adslot");
 var logger_1 = require("../../modules/logger");
 var viewport_1 = require("../../modules/viewport");
 var autorefresh_1 = require("../../modules/autorefresh");
-var SmartPlugIn = (function () {
+var SmartPlugIn = /** @class */ (function () {
     function SmartPlugIn() {
         this.name = "SmartAdServer";
         this.slots = {};

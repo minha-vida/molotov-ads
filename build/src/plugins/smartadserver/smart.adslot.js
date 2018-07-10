@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var adslot_1 = require("../../modules/adslot");
-var SmartAdSlot = (function (_super) {
+var SmartAdSlot = /** @class */ (function (_super) {
     __extends(SmartAdSlot, _super);
     function SmartAdSlot(HTMLElement) {
         var _this = _super.call(this, HTMLElement) || this;
@@ -30,17 +30,12 @@ var SmartAdSlot = (function (_super) {
         return _this;
     }
     SmartAdSlot.prototype.refresh = function () {
-        sas.render(this.smartAdId);
+        sas.refresh(this.smartAdId);
     };
     SmartAdSlot.prototype.render = function () {
         if (this.lazyloadEnabled)
             return;
         sas.render(this.smartAdId);
-    };
-    SmartAdSlot.prototype.std = function (options) {
-        sas.cmd.push(function () {
-            sas.call("std", options);
-        });
     };
     return SmartAdSlot;
 }(adslot_1.AdSlot));

@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var adslot_1 = require("../../modules/adslot");
-var DoubleClickAdSlot = (function (_super) {
+var DoubleClickAdSlot = /** @class */ (function (_super) {
     __extends(DoubleClickAdSlot, _super);
     function DoubleClickAdSlot(HTMLElement) {
         var _this = _super.call(this, HTMLElement) || this;
@@ -40,11 +40,17 @@ var DoubleClickAdSlot = (function (_super) {
             this.doubleclickAdSlot = googletag.defineSlot(this.adUnit, this.size, this.name).addService(googletag.pubads());
         }
     };
+    DoubleClickAdSlot.prototype.addSizeMapping = function (sizes) {
+        this.doubleclickAdSlot.defineSizeMapping(sizes);
+    };
+    DoubleClickAdSlot.prototype.addSetTargeting = function (target) {
+        this.doubleclickAdSlot.setTargeting('position', target);
+    };
+    DoubleClickAdSlot.prototype.addCollapseEmptyDivs = function (val1, val2) {
+        this.doubleclickAdSlot.setCollapseEmptyDiv(val1, val2);
+    };
     DoubleClickAdSlot.prototype.display = function () {
         googletag.display(this.name);
-        if (this.lazyloadEnabled)
-            return;
-        this.refresh();
     };
     DoubleClickAdSlot.prototype.refresh = function () {
         googletag.pubads().refresh([this.doubleclickAdSlot]);

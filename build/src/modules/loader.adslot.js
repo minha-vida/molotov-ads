@@ -21,4 +21,13 @@ var AdSlotLoader;
         });
     }
     AdSlotLoader.loadSlots = loadSlots;
+    function loadSlot(el) {
+        return new Promise(function (resolve, reject) {
+            var slots = {};
+            var element = el;
+            slots[element.id] = new adslot_1.AdSlot(element);
+            return resolve(slots);
+        });
+    }
+    AdSlotLoader.loadSlot = loadSlot;
 })(AdSlotLoader = exports.AdSlotLoader || (exports.AdSlotLoader = {}));

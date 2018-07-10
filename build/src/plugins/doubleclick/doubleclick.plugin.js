@@ -4,7 +4,7 @@ var doubleclick_adslot_1 = require("./doubleclick.adslot");
 var logger_1 = require("../../modules/logger");
 var viewport_1 = require("../../modules/viewport");
 var autorefresh_1 = require("../../modules/autorefresh");
-var DoubleClickPlugIn = (function () {
+var DoubleClickPlugIn = /** @class */ (function () {
     function DoubleClickPlugIn() {
         this.name = "DoubleClick";
         this.slots = {};
@@ -17,6 +17,12 @@ var DoubleClickPlugIn = (function () {
                 for (var slotName in self.slots) {
                     self.slots[slotName].defineSlot();
                     logger_1.Logger.log(self.name, 'ad slot defined: ', self.slots[slotName]);
+                    if (options.sizes[slotName]) {
+                        self.slots[slotName].addSizeMapping(options.sizes[slotName]);
+                    }
+                    if (options.target[slotName]) {
+                        self.slots[slotName].addSetTargeting(options.target[slotName]);
+                    }
                 }
                 for (var item in options.customTargets) {
                     var value = options.customTargets[item];

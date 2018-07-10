@@ -36,6 +36,16 @@ export class MolotovAds {
         });
     }
 
+    loadSlot(el: HTMLElement){
+        var self = this;
+        AdSlotLoader.loadSlot(el).then(function(slots) {
+            self.slots[el.id] = slots[el.id];
+
+            var event = new CustomEvent('madSlotLoaded', { detail: self.slots[el.id] });
+            document.dispatchEvent(event);
+        });
+    }
+
     loadPlugin(plugin: PlugInInterface) {
         Logger.infoWithTime("Plugin", plugin.name, "loaded");
 
@@ -51,14 +61,14 @@ export class MolotovAds {
         let pluginIndex = window._molotovAds.plugins.indexOf(plugin);
 
         window._molotovAds.plugins[pluginIndex].init(madOptions[plugin.name])
-            .then(function success() {
-                let t1 = performance.now();
-                Logger.info(plugin.name, 'total execution time: ', t1 - t0, 'ms');
-                Logger.infoWithTime("Plugin", plugin.name, "initialized successfully");
+        .then(function success() {
+            let t1 = performance.now();
+            Logger.info(plugin.name, 'total execution time: ', t1 - t0, 'ms');
+            Logger.infoWithTime("Plugin", plugin.name, "initialized successfully");
 
-                var event = new CustomEvent('madPlugInInitalized', { detail: plugin });
-                document.dispatchEvent(event);
-            });
+            var event = new CustomEvent('madPlugInInitalized', { detail: plugin });
+            document.dispatchEvent(event);
+        });
     }
 
     private initAllPlugins() {

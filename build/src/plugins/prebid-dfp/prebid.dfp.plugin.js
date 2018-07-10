@@ -4,7 +4,7 @@ var doubleclick_adslot_1 = require("../doubleclick/doubleclick.adslot");
 var logger_1 = require("../../modules/logger");
 var viewport_1 = require("../../modules/viewport");
 var autorefresh_1 = require("../../modules/autorefresh");
-var PrebidDfpPlugIn = (function () {
+var PrebidDfpPlugIn = /** @class */ (function () {
     function PrebidDfpPlugIn() {
         this.name = "PrebidDfp";
         this.slots = {};
@@ -12,17 +12,32 @@ var PrebidDfpPlugIn = (function () {
     }
     PrebidDfpPlugIn.prototype.init = function (options) {
         var self = this;
+        var refreshSlots = [];
         this.slots = this.getSlots();
         this.PREBID_TIMEOUT = options.PREBID_TIMEOUT;
         return new Promise(function (resolve, reject) {
             googletag.cmd.push(function () {
+                googletag.pubads().enableSingleRequest();
                 googletag.pubads().disableInitialLoad();
+                logger_1.Logger.info('enabling services');
+                googletag.enableServices();
             });
             pbjs.que.push(function () {
+                logger_1.Logger.infoWithTime("Set config of prebid");
+                pbjs.setConfig({
+                    debug: options.debug,
+                    priceGranularity: options.granularity,
+                    enableSendAllBids: options.sendAllBids,
+                    bidderSequence: options.sequence,
+                    bidderTimeout: options.PREBID_TIMEOUT,
+                    publisherDomain: options.domain,
+                    pageOptions: options.pageOptions,
+                });
                 logger_1.Logger.infoWithTime("Adding adunits to prebid...");
                 pbjs.addAdUnits(options.adUnits);
                 logger_1.Logger.infoWithTime("Requesting bids...");
                 pbjs.requestBids({
+                    adUnitCodes: options.initialAdUnits,
                     bidsBackHandler: sendAdserverRequest
                 });
             });
@@ -34,6 +49,18 @@ var PrebidDfpPlugIn = (function () {
                 for (var slotName in self.slots) {
                     self.slots[slotName].defineSlot();
                     logger_1.Logger.log(self.name, 'ad slot defined: ', self.slots[slotName]);
+                    if (options.sizes[slotName]) {
+                        self.slots[slotName].addSizeMapping(options.sizes[slotName]);
+                    }
+                    if (options.target[slotName]) {
+                        self.slots[slotName].addSetTargeting(options.target[slotName]);
+                    }
+                    if (options.collapse[slotName]) {
+                        self.slots[slotName].addCollapseEmptyDivs(true, true);
+                    }
+                    else {
+                        self.slots[slotName].addCollapseEmptyDivs(true);
+                    }
                 }
                 for (var item in options.customTargets) {
                     var value = options.customTargets[item];
@@ -43,14 +70,25 @@ var PrebidDfpPlugIn = (function () {
                 googletag.pubads().addEventListener('slotRenderEnded', function (event) {
                     logger_1.Logger.logWithTime(event.slot.getSlotElementId(), 'finished slot rendering');
                     var slot = self.slots[event.slot.getSlotElementId()];
-                    autorefresh_1.AutoRefresh.start(slot, options, self.autoRefresh);
-                    if (options.onSlotRenderEnded)
+                    var checkList = true;
+                    for (var id in options.disableRotateList.lineItemIds) {
+                        if (event.lineItemId == options.disableRotateList.lineItemIds[id]) {
+                            checkList = false;
+                        }
+                    }
+                    for (var id in options.disableRotateList.orderIds) {
+                        if (event.campaignId == options.disableRotateList.orderIds[id]) {
+                            checkList = false;
+                        }
+                    }
+                    if (checkList) {
+                        autorefresh_1.AutoRefresh.start(slot, options, self.autoRefresh);
+                    }
+                    if (options.onSlotRenderEnded) {
                         options.onSlotRenderEnded(event);
+                    }
                 });
-                logger_1.Logger.info('enabling services');
-                googletag.pubads().enableSingleRequest();
-                googletag.enableServices();
-                self.onScrollRefreshLazyloadedSlots();
+                self.onScrollRefreshLazyloadedSlots(options);
             });
             function sendAdserverRequest() {
                 if (pbjs.adserverRequestSent)
@@ -59,10 +97,6 @@ var PrebidDfpPlugIn = (function () {
                 pbjs.adserverRequestSent = true;
                 googletag.cmd.push(function () {
                     pbjs.que.push(function () {
-                        if (options.sendAllBids) {
-                            logger_1.Logger.infoWithTime("Enabling all bids");
-                            pbjs.enableSendAllBids();
-                        }
                         logger_1.Logger.infoWithTime("setTargetingForGPTAsync called");
                         pbjs.setTargetingForGPTAsync();
                         if (options.logBids) {
@@ -72,22 +106,64 @@ var PrebidDfpPlugIn = (function () {
                         for (var slotName in self.slots) {
                             self.slots[slotName].display();
                             logger_1.Logger.logWithTime(self.slots[slotName].name, 'started displaying');
+                            if (self.slots[slotName].lazyloadEnabled) {
+                            }
+                            else {
+                                refreshSlots.push(self.slots[slotName].doubleclickAdSlot);
+                            }
                         }
+                        googletag.pubads().refresh(refreshSlots);
                         resolve();
                     });
                 });
             }
+            document.addEventListener("madSlotLoaded", function (e) {
+                var slot = e.detail;
+                slot = self.getSingleSlot(slot);
+                googletag.cmd.push(function () {
+                    for (var slotName in slot) {
+                        self.slots[slotName] = slot[slotName];
+                        slot[slotName].defineSlot();
+                        logger_1.Logger.log(self.name, 'ad slot defined: ', slot[slotName]);
+                        if (options.sizes[slotName]) {
+                            slot[slotName].addSizeMapping(options.sizes[slotName]);
+                        }
+                        if (options.target[slotName]) {
+                            slot[slotName].addSetTargeting(options.target[slotName]);
+                        }
+                        if (options.collapse[slotName]) {
+                            slot[slotName].addCollapseEmptyDivs(true, true);
+                        }
+                        else {
+                            slot[slotName].addCollapseEmptyDivs(true);
+                        }
+                        slot[slotName].display();
+                        slot[slotName].refresh();
+                    }
+                });
+            });
         });
     };
-    PrebidDfpPlugIn.prototype.onScrollRefreshLazyloadedSlots = function () {
+    PrebidDfpPlugIn.prototype.onScrollRefreshLazyloadedSlots = function (options) {
         var self = this;
         window.addEventListener('scroll', function refreshAdsIfItIsInViewport(event) {
-            for (var slotName in self.slots) {
+            var _loop_1 = function (slotName) {
                 var slot = self.slots[slotName];
                 if (slot.lazyloadEnabled && viewport_1.Viewport.isElementInViewport(slot.HTMLElement, slot.lazyloadOffset)) {
-                    slot.refresh();
+                    pbjs.que.push(function () {
+                        pbjs.requestBids({
+                            adUnitCodes: [slot.name],
+                            bidsBackHandler: function () {
+                                pbjs.setTargetingForGPTAsync([slot.name]);
+                                slot.refresh();
+                            }
+                        });
+                    });
                     slot.lazyloadEnabled = false;
                 }
+            };
+            for (var slotName in self.slots) {
+                _loop_1(slotName);
             }
         });
     };
@@ -95,13 +171,20 @@ var PrebidDfpPlugIn = (function () {
         logger_1.Logger.logWithTime(slot.name, 'started refreshing');
         pbjs.que.push(function () {
             pbjs.requestBids({
-                timeout: options.PREBID_TIMEOUT,
+                adUnitCodes: [slot.name],
                 bidsBackHandler: function () {
-                    pbjs.setTargetingForGPTAsync();
+                    pbjs.setTargetingForGPTAsync([slot.name]);
                     slot.refresh();
                 }
             });
         });
+    };
+    PrebidDfpPlugIn.prototype.getSingleSlot = function (slot) {
+        var slots = {};
+        var el = slot.HTMLElement;
+        slots[el.id] = new doubleclick_adslot_1.DoubleClickAdSlot(el);
+        window._molotovAds.slots[el.id] = slots[el.id];
+        return slots;
     };
     PrebidDfpPlugIn.prototype.getSlots = function () {
         var slots = {};
