@@ -12,7 +12,7 @@ export class PrebidDfpPlugIn implements PlugInInterface {
 
   slots: {} = {};
 
-  PREBID_TIMEOUT: number = 400;
+  PREBID_TIMEOUT: number = 3000;
 
   init(options: any): Promise<void> {
     let self = this;
@@ -21,7 +21,7 @@ export class PrebidDfpPlugIn implements PlugInInterface {
 
     this.slots = this.getSlots();
 
-    this.PREBID_TIMEOUT = options.PREBID_TIMEOUT;
+    this.PREBID_TIMEOUT = pbjs.getConfig().bidderTimeout;
 
     return new Promise<void>(function(resolve, reject) {
 
@@ -33,18 +33,6 @@ export class PrebidDfpPlugIn implements PlugInInterface {
       });
 
       pbjs.que.push(function() {
-
-        Logger.infoWithTime("Set config of prebid");
-        pbjs.setConfig({
-          debug: options.debug,
-          priceGranularity: options.granularity,
-          enableSendAllBids: options.sendAllBids,
-          bidderSequence: options.sequence,
-          bidderTimeout: options.PREBID_TIMEOUT,
-          publisherDomain: options.domain,
-          pageOptions: options.pageOptions,
-        });
-
         Logger.infoWithTime("Adding adunits to prebid...");
         pbjs.addAdUnits(options.adUnits);
 
@@ -58,7 +46,7 @@ export class PrebidDfpPlugIn implements PlugInInterface {
       setTimeout(function() {
         Logger.infoWithTime("Timeout reached, will send ad server request");
         sendAdserverRequest();
-      }, options.PREBID_TIMEOUT);
+      }, pbjs.getConfig().bidderTimeout);
 
       googletag.cmd.push(function() {
         for (let slotName in self.slots) {
@@ -174,8 +162,9 @@ export class PrebidDfpPlugIn implements PlugInInterface {
             } else {
               slot[slotName].addCollapseEmptyDivs(true);
             }
+
             slot[slotName].display();
-            slot[slotName].refresh();
+            self.autoRefresh(slot[slotName], options);
           }
         });
       });

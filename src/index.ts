@@ -46,6 +46,11 @@ export class MolotovAds {
         });
     }
 
+    deleteSlot(el){
+        var self = this;
+        AdSlotLoader.deleteSlot(el);
+    }
+
     loadPlugin(plugin: PlugInInterface) {
         Logger.infoWithTime("Plugin", plugin.name, "loaded");
 

@@ -8,13 +8,13 @@ var PrebidDfpPlugIn = /** @class */ (function () {
     function PrebidDfpPlugIn() {
         this.name = "PrebidDfp";
         this.slots = {};
-        this.PREBID_TIMEOUT = 400;
+        this.PREBID_TIMEOUT = 3000;
     }
     PrebidDfpPlugIn.prototype.init = function (options) {
         var self = this;
         var refreshSlots = [];
         this.slots = this.getSlots();
-        this.PREBID_TIMEOUT = options.PREBID_TIMEOUT;
+        this.PREBID_TIMEOUT = pbjs.getConfig().bidderTimeout;
         return new Promise(function (resolve, reject) {
             googletag.cmd.push(function () {
                 googletag.pubads().enableSingleRequest();
@@ -23,16 +23,6 @@ var PrebidDfpPlugIn = /** @class */ (function () {
                 googletag.enableServices();
             });
             pbjs.que.push(function () {
-                logger_1.Logger.infoWithTime("Set config of prebid");
-                pbjs.setConfig({
-                    debug: options.debug,
-                    priceGranularity: options.granularity,
-                    enableSendAllBids: options.sendAllBids,
-                    bidderSequence: options.sequence,
-                    bidderTimeout: options.PREBID_TIMEOUT,
-                    publisherDomain: options.domain,
-                    pageOptions: options.pageOptions,
-                });
                 logger_1.Logger.infoWithTime("Adding adunits to prebid...");
                 pbjs.addAdUnits(options.adUnits);
                 logger_1.Logger.infoWithTime("Requesting bids...");
@@ -44,7 +34,7 @@ var PrebidDfpPlugIn = /** @class */ (function () {
             setTimeout(function () {
                 logger_1.Logger.infoWithTime("Timeout reached, will send ad server request");
                 sendAdserverRequest();
-            }, options.PREBID_TIMEOUT);
+            }, pbjs.getConfig().bidderTimeout);
             googletag.cmd.push(function () {
                 for (var slotName in self.slots) {
                     self.slots[slotName].defineSlot();
@@ -138,7 +128,7 @@ var PrebidDfpPlugIn = /** @class */ (function () {
                             slot[slotName].addCollapseEmptyDivs(true);
                         }
                         slot[slotName].display();
-                        slot[slotName].refresh();
+                        self.autoRefresh(slot[slotName], options);
                     }
                 });
             });

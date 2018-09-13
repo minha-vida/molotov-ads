@@ -29,8 +29,18 @@ export module AdSlotLoader {
         return new Promise(function (resolve, reject) {
             let slots = {};
 
-                let element = <HTMLElement>el;
-                slots[element.id] = new AdSlot(element);
+            let element = <HTMLElement>el;
+            slots[element.id] = new AdSlot(element);
+
+            return resolve(slots);
+        });
+    }
+
+    export function deleteSlot(el) {
+        return new Promise(function (resolve, reject) {
+            let slots = {};
+
+            delete slots[el];
 
             return resolve(slots);
         });

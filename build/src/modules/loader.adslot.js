@@ -30,4 +30,12 @@ var AdSlotLoader;
         });
     }
     AdSlotLoader.loadSlot = loadSlot;
+    function deleteSlot(el) {
+        return new Promise(function (resolve, reject) {
+            var slots = {};
+            delete slots[el];
+            return resolve(slots);
+        });
+    }
+    AdSlotLoader.deleteSlot = deleteSlot;
 })(AdSlotLoader = exports.AdSlotLoader || (exports.AdSlotLoader = {}));

@@ -29,6 +29,10 @@ var MolotovAds = /** @class */ (function () {
             document.dispatchEvent(event);
         });
     };
+    MolotovAds.prototype.deleteSlot = function (el) {
+        var self = this;
+        loader_adslot_1.AdSlotLoader.deleteSlot(el);
+    };
     MolotovAds.prototype.loadPlugin = function (plugin) {
         logger_1.Logger.infoWithTime("Plugin", plugin.name, "loaded");
         window._molotovAds.plugins.push(plugin);
